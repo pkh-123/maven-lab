@@ -1,7 +1,8 @@
 package com.example.calculator;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestAdditionFunctionality {
 
@@ -11,6 +12,6 @@ public class TestAdditionFunctionality {
 
         int result = calculator.addition(10, 20);
 
-        Assert.assertEquals(result, 31);
+        assertEquals(31, result);
     }
 }
