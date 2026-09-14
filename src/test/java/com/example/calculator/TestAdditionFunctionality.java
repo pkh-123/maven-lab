@@ -12,6 +12,6 @@ public class TestAdditionFunctionality {
 
         int result = calculator.addition(10, 20);
 
-        assertEquals(31, result);
+        assertEquals(30, result);
     }
 }
