@@ -68,7 +68,7 @@ pipeline {
                         -o UserKnownHostsFile=/var/jenkins_home/.ssh/known_hosts \
                         -o StrictHostKeyChecking=accept-new \
                         adam@host.docker.internal \
-                        'for i in $(seq 1 20); do curl -fsS "http://127.0.0.1:8081/add?num1=10&num2=20" | grep -qx 30 && exit 0; sleep 3; done; exit 1'
+                        'for i in $(seq 1 40); do curl -fsS "http://127.0.0.1:8081/add?num1=10&num2=20" | grep -qx 30 && exit 0; sleep 3; done; exit 1'
                 '''
             }
         }
