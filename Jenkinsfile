@@ -72,5 +72,22 @@ pipeline {
                 '''
             }
         }
+
+        stage('Publish image to Docker Hub') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub-token', variable: 'DOCKERHUB_TOKEN')]) {
+                    sh '''
+                        set +x
+                        printf '%s' "$DOCKERHUB_TOKEN" | \
+                        ssh -i /var/jenkins_home/.ssh/deploy_key \
+                            -p 2222 \
+                            -o UserKnownHostsFile=/var/jenkins_home/.ssh/known_hosts \
+                            -o StrictHostKeyChecking=accept-new \
+                            adam@host.docker.internal \
+                            "set -e; trap 'docker logout >/dev/null 2>&1 || true' EXIT; docker login -u pp0104 --password-stdin; docker tag calculator-docker-lab:jenkins-${BUILD_NUMBER} pp0104/calculator-docker-lab:jenkins-${BUILD_NUMBER}; docker push pp0104/calculator-docker-lab:jenkins-${BUILD_NUMBER}"
+                    '''
+                }
+            }
+        }
     }
 }
