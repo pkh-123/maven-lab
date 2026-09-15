@@ -10,13 +10,18 @@ pipeline {
 
         stage('Check SSH access to VM') {
             steps {
-                sh '''
-                    ssh -i /var/jenkins_home/.ssh/deploy_key \
-                        -p 2222 \
-                        -o UserKnownHostsFile=/var/jenkins_home/.ssh/known_hosts \
-                        -o StrictHostKeyChecking=accept-new \
-                        adam@host.docker.internal 'hostname'
-                '''
+                retry(3) {
+                    sh '''
+                        ssh -i /var/jenkins_home/.ssh/deploy_key \
+                            -p 2222 \
+                            -o ConnectTimeout=10 \
+                            -o ServerAliveInterval=5 \
+                            -o ServerAliveCountMax=2 \
+                            -o UserKnownHostsFile=/var/jenkins_home/.ssh/known_hosts \
+                            -o StrictHostKeyChecking=accept-new \
+                            adam@host.docker.internal 'hostname'
+                    '''
+                }
             }
         }
 
