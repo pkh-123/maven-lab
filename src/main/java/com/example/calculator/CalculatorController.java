@@ -15,7 +15,7 @@ public class CalculatorController {
 
     @RequestMapping("/")
     public String index() {
-        return "health check - Poll SCM test";
+        return "health check - deployed by Jenkins";
     }
 
     @RequestMapping("/add")
