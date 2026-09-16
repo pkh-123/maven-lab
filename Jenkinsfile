@@ -89,7 +89,7 @@ pipeline {
                             -o UserKnownHostsFile=/var/jenkins_home/.ssh/known_hosts \
                             -o StrictHostKeyChecking=accept-new \
                             adam@host.docker.internal \
-                            "set -e; trap 'docker logout >/dev/null 2>&1 || true' EXIT; docker login -u pp0104 --password-stdin; docker tag calculator-docker-lab:jenkins-${BUILD_NUMBER} pp0104/calculator-docker-lab:jenkins-${BUILD_NUMBER}; docker push pp0104/calculator-docker-lab:jenkins-${BUILD_NUMBER}"
+                                                        "set -e; trap 'docker logout >/dev/null 2>&1 || true' EXIT; docker login -u pp0104 --password-stdin; docker tag calculator-docker-lab:jenkins-${BUILD_NUMBER} pp0104/calculator-docker-lab:jenkins-${BUILD_NUMBER}; docker push pp0104/calculator-docker-lab:jenkins-${BUILD_NUMBER}; docker tag calculator-docker-lab:jenkins-${BUILD_NUMBER} pp0104/calculator-docker-lab:latest; docker push pp0104/calculator-docker-lab:latest"
                     '''
                 }
             }
