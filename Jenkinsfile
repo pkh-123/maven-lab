@@ -4,9 +4,30 @@ pipeline {
     stages {
         stage('CI - Maven build and test') {
             steps {
-                sh 'sh ./mvnw -B clean package'
+                sh 'sh ./mvnw -B clean verify'
             }
         }
+
+    stage('SonarQube Analysis') {
+        steps {
+            withSonarQubeEnv('sonarqube-local') {
+                sh '''
+                    sh ./mvnw -B \
+                        org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                        -Dsonar.projectKey=maven-lab \
+                        -Dsonar.projectName=maven-lab
+                '''
+            }
+        }
+    }
+
+    stage('Quality Gate') {
+        steps {
+            timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+    }
 
         stage('Check SSH access to VM') {
             steps {
